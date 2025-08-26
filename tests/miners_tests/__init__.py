@@ -33,10 +33,49 @@ class MinersTest(unittest.TestCase):
                     miner_type=miner_type,
                     miner_model=miner_model,
                 ):
+                    MINER_CLASSES[miner_type][miner_model]("127.0.0.1")
+
+    def test_miner_has_hashboards(self):
+        warnings.filterwarnings("ignore")
+        for miner_type in MINER_CLASSES.keys():
+            for miner_model in MINER_CLASSES[miner_type].keys():
+                if miner_model is None:
+                    continue
+                with self.subTest(
+                    msg=f"Test miner has defined hashboards",
+                    miner_type=miner_type,
+                    miner_model=miner_model,
+                ):
                     miner = MINER_CLASSES[miner_type][miner_model]("127.0.0.1")
-                    self.assertTrue(
-                        isinstance(miner, MINER_CLASSES[miner_type][miner_model])
-                    )
+                    self.assertTrue(miner.expected_hashboards is not None)
+
+    def test_miner_has_fans(self):
+        warnings.filterwarnings("ignore")
+        for miner_type in MINER_CLASSES.keys():
+            for miner_model in MINER_CLASSES[miner_type].keys():
+                if miner_model is None:
+                    continue
+                with self.subTest(
+                    msg=f"Test miner has defined fans",
+                    miner_type=miner_type,
+                    miner_model=miner_model,
+                ):
+                    miner = MINER_CLASSES[miner_type][miner_model]("127.0.0.1")
+                    self.assertTrue(miner.expected_fans is not None)
+
+    def test_miner_has_algo(self):
+        warnings.filterwarnings("ignore")
+        for miner_type in MINER_CLASSES.keys():
+            for miner_model in MINER_CLASSES[miner_type].keys():
+                if miner_model is None:
+                    continue
+                with self.subTest(
+                    msg=f"Test miner has defined algo",
+                    miner_type=miner_type,
+                    miner_model=miner_model,
+                ):
+                    miner = MINER_CLASSES[miner_type][miner_model]("127.0.0.1")
+                    self.assertTrue(miner.algo is not None)
 
     def test_miner_has_hashboards(self):
         warnings.filterwarnings("ignore")

@@ -86,6 +86,7 @@ class LUXMiner(LuxOSFirmware):
 
     supports_shutdown = True
     supports_presets = True
+    supports_autotuning = True
 
     data_locations = LUXMINER_DATA_LOC
 
@@ -191,10 +192,10 @@ class LUXMiner(LuxOSFirmware):
         try:
             if await self.atm_enabled():
                 re_enable_atm = True
-                await self.rpc.atmset("enabled=false")
+                await self.rpc.atmset(enabled=False)
             result = await self.rpc.profileset(new_preset)
             if re_enable_atm:
-                await self.rpc.atmset("enabled=true")
+                await self.rpc.atmset(enabled=True)
         except APIError:
             raise
         except Exception as e:
@@ -240,6 +241,9 @@ class LUXMiner(LuxOSFirmware):
                 pass
 
     async def _get_hashboards(self, rpc_stats: dict = None) -> List[HashBoard]:
+        if self.expected_hashboards is None:
+            return []
+
         hashboards = [
             HashBoard(slot=idx, expected_chips=self.expected_chips)
             for idx in range(self.expected_hashboards)
@@ -309,6 +313,9 @@ class LUXMiner(LuxOSFirmware):
             pass
 
     async def _get_fans(self, rpc_fans: dict = None) -> List[Fan]:
+        if self.expected_fans is None:
+            return []
+
         if rpc_fans is None:
             try:
                 rpc_fans = await self.rpc.fans()

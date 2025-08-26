@@ -13,7 +13,12 @@
 #  See the License for the specific language governing permissions and         -
 #  limitations under the License.                                              -
 # ------------------------------------------------------------------------------
-from pyasic.miners.backends.btminer import BTMiner
+from pyasic.miners.backends.btminer import BTMiner, BTMinerV2
+
+
+class M7X(BTMiner):
+    supports_autotuning = True
+    supports_presets = True
 
 
 class M7X(BTMiner):
@@ -22,15 +27,18 @@ class M7X(BTMiner):
 
 class M6X(BTMiner):
     supports_autotuning = True
+    supports_presets = True
 
 
 class M5X(BTMiner):
     supports_autotuning = True
+    supports_presets = True
 
 
 class M3X(BTMiner):
     supports_autotuning = True
+    supports_presets = True
 
 
-class M2X(BTMiner):
+class M2X(BTMinerV2):
     pass
